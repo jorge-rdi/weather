@@ -1,7 +1,7 @@
-import config from './config';
-
 let clima = {
-    apiKey: config.apiKey,
+
+    apiKey: "1f16105ad8dcdf0ca47e858bc28c15bd",
+
     obtenerClima: function(ciudad) {
         fetch(
                 "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -61,20 +61,26 @@ let clima = {
         document.querySelector(".viento").innerText =
             "Velocidad del viento: " + speed + " km/h";
         document.querySelector(".clima").classList.remove("cargando");
+
         this.obtenerPronostico(name);
     },
 
     mostrarPronostico: function(datos) {
-        const datosPronostico = datos.list.slice(1, 4);
+        const datosPronostico = datos.list.slice(1, 4); // Cambiado de (1, 3) a (1, 4)
+
         const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
         const contenedorPronostico = document.querySelector(".pronostico");
         contenedorPronostico.innerHTML = "";
+
         datosPronostico.forEach((item, index) => {
             const fecha = new Date(item.dt * 1000);
             const nombreDia = dias[(fecha.getDay() + index) % 7];
+            const tempMin = item.main.temp_min;
             const tempMax = item.main.temp_max;
             const icono = item.weather[0].icon;
             const descripcion = item.weather[0].description;
+
             const elementoPronostico = document.createElement("div");
             elementoPronostico.classList.add("item-pronostico");
             elementoPronostico.innerHTML = `
